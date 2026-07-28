@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_blocks_schedules",
+  "info": {
+    "displayName": "Schedule"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.schedule-item"
+    }
+  }
+}

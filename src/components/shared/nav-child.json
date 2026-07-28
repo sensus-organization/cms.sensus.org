@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_shared_nav_children",
+  "info": {
+    "displayName": "Nav Child"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "to": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "external": {
+      "type": "boolean"
+    },
+    "badge": {
+      "type": "string"
+    }
+  }
+}

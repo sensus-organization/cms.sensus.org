@@ -3,6 +3,11 @@ import type { Core } from '@strapi/strapi';
 const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Admin => ({
   auth: {
     secret: env('ADMIN_JWT_SECRET'),
+    sessions: {
+      maxSessionLifespan: 24 * 60 * 60,
+      maxRefreshTokenLifespan: 24 * 60 * 60,
+      idleRefreshTokenLifespan: 8 * 60 * 60,
+    },
   },
   apiToken: {
     salt: env('API_TOKEN_SALT'),

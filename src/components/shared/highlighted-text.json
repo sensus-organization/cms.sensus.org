@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_shared_highlighted_texts",
+  "info": {
+    "displayName": "Highlighted Text"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    },
+    "highlight": {
+      "type": "string"
+    }
+  }
+}

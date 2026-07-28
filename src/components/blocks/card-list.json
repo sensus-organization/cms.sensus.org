@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_blocks_card_lists",
+  "info": {
+    "displayName": "Card List"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "layout": {
+      "type": "enumeration",
+      "enum": [
+        "grid",
+        "numbered"
+      ],
+      "default": "grid"
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.card"
+    }
+  }
+}

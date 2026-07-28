@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "editions",
+  "info": {
+    "singularName": "edition",
+    "pluralName": "editions",
+    "displayName": "Edition"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "year": {
+      "type": "integer",
+      "required": true,
+      "unique": true
+    },
+    "title": {
+      "type": "string"
+    },
+    "biomarker": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "text"
+    },
+    "themeContent": {
+      "type": "blocks"
+    },
+    "links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.link"
+    },
+    "results": {
+      "type": "component",
+      "repeatable": true,
+      "component": "archive.award-result"
+    },
+    "orgIntro": {
+      "type": "text"
+    },
+    "orgGroups": {
+      "type": "component",
+      "repeatable": true,
+      "component": "archive.org-group"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "collectionName": "components_archive_award_results",
+  "info": {
+    "displayName": "Award Result"
+  },
+  "options": {},
+  "attributes": {
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "innovation",
+        "translation-potential",
+        "analytical-performance",
+        "public-inspiration"
+      ],
+      "required": true
+    },
+    "first": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::team.team"
+    },
+    "second": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::team.team"
+    },
+    "third": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::team.team"
+    }
+  }
+}

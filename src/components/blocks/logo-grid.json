@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_blocks_logo_grids",
+  "info": {
+    "displayName": "Logo Grid"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "columns": {
+      "type": "integer",
+      "default": 4
+    },
+    "partners": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::partner.partner"
+    }
+  }
+}

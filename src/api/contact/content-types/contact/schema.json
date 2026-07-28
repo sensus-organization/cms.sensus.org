@@ -1,0 +1,62 @@
+{
+  "kind": "singleType",
+  "collectionName": "contacts",
+  "info": {
+    "singularName": "contact",
+    "pluralName": "contacts",
+    "displayName": "Contact"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    },
+    "header": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.hero"
+    },
+    "visitingAddress": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.address"
+    },
+    "shippingAddress": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.address"
+    },
+    "bankTitle": {
+      "type": "string"
+    },
+    "bankDescription": {
+      "type": "text"
+    },
+    "bankDetails": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.stat"
+    },
+    "generalTitle": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "legal": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.stat"
+    },
+    "mapsUrl": {
+      "type": "string"
+    },
+    "donationUrl": {
+      "type": "string"
+    }
+  }
+}

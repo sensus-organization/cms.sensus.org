@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_shared_schedule_items",
+  "info": {
+    "displayName": "Schedule Item"
+  },
+  "options": {},
+  "attributes": {
+    "time": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "highlight": {
+      "type": "boolean"
+    }
+  }
+}

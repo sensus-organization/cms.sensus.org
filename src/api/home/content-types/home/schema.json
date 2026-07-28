@@ -1,0 +1,59 @@
+{
+  "kind": "singleType",
+  "collectionName": "homes",
+  "info": {
+    "singularName": "home",
+    "pluralName": "homes",
+    "displayName": "Home"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "hero": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.hero"
+    },
+    "about": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.about"
+    },
+    "mission": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.mission"
+    },
+    "teamsSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.teams-section"
+    },
+    "theme": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.theme"
+    },
+    "symposium": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.symposium"
+    },
+    "highSchools": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.high-schools"
+    },
+    "partners": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::partner.partner"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

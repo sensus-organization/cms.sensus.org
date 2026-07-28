@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_blocks_world_maps",
+  "info": {
+    "displayName": "World Map"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    }
+  }
+}

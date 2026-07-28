@@ -1,6 +1,17 @@
 node_modules
 .tmp
 .cache
+data/
+scripts/
 .git
+.github
+**/.DS_Store
 build
+dist
 .env
+.env.strapi
+secrets
+docs
+README.md
+public/uploads/*
+!public/uploads/.gitkeep

@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_shared_nav_items",
+  "info": {
+    "displayName": "Nav Item"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "to": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "external": {
+      "type": "boolean"
+    },
+    "badge": {
+      "type": "string"
+    },
+    "children": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.nav-child"
+    }
+  }
+}

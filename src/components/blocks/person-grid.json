@@ -1,0 +1,39 @@
+{
+  "collectionName": "components_blocks_person_grids",
+  "info": {
+    "displayName": "Person Grid"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.highlighted-text"
+    },
+    "description": {
+      "type": "text"
+    },
+    "size": {
+      "type": "enumeration",
+      "enum": [
+        "sm",
+        "md",
+        "lg"
+      ],
+      "default": "md"
+    },
+    "showRole": {
+      "type": "boolean",
+      "default": true
+    },
+    "showAffiliation": {
+      "type": "boolean",
+      "default": false
+    },
+    "people": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::person.person"
+    }
+  }
+}

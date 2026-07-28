@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_blocks_archive_hubs",
+  "info": {
+    "displayName": "Archive Hub"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "title": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.highlighted-text"
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}

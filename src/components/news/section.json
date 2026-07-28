@@ -1,0 +1,39 @@
+{
+  "collectionName": "components_news_sections",
+  "info": {
+    "displayName": "News Section"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "body": {
+      "type": "blocks"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "videoUrl": {
+      "type": "string"
+    },
+    "layout": {
+      "type": "enumeration",
+      "enum": [
+        "text",
+        "image",
+        "text-and-image",
+        "video"
+      ],
+      "default": "text"
+    },
+    "highlight": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

@@ -25,11 +25,18 @@ const isLoopbackRequest = (ctx: any) => {
 };
 
 const splitName = (displayName: string, email: string) => {
-  const parts = displayName.trim().split(/\s+/).filter(Boolean);
-  if (parts.length === 0) {
-    return { firstname: email.split('@')[0], lastname: undefined as string | undefined };
+  const display = displayName.trim();
+  if (display && !display.includes('@') && /\s/.test(display)) {
+    const parts = display.split(/\s+/);
+    return { firstname: parts[0], lastname: parts.slice(1).join(' ') || undefined };
   }
-  return { firstname: parts[0], lastname: parts.slice(1).join(' ') || undefined };
+
+  const local = email.split('@')[0];
+  const parts = local
+    .split(/[._-]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1));
+  return { firstname: parts[0] || local, lastname: parts.slice(1).join(' ') || undefined };
 };
 
 const buildRefreshCookieOptions = (strapi: Core.Strapi, secureRequest: boolean) => {

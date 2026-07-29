@@ -469,6 +469,37 @@ export interface ApiContactContact extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiDepartmentDepartment extends Struct.CollectionTypeSchema {
+  collectionName: 'departments';
+  info: {
+    displayName: 'Department';
+    pluralName: 'departments';
+    singularName: 'department';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::department.department'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiEditionEdition extends Struct.CollectionTypeSchema {
   collectionName: 'editions';
   info: {
@@ -491,7 +522,10 @@ export interface ApiEditionEdition extends Struct.CollectionTypeSchema {
       'api::edition.edition'
     > &
       Schema.Attribute.Private;
-    orgGroups: Schema.Attribute.Component<'archive.org-group', true>;
+    memberships: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::membership.membership'
+    >;
     orgIntro: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
     results: Schema.Attribute.Component<'archive.award-result', true>;
@@ -575,6 +609,41 @@ export interface ApiHomeHome extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiMembershipMembership extends Struct.CollectionTypeSchema {
+  collectionName: 'memberships';
+  info: {
+    displayName: 'Membership';
+    pluralName: 'memberships';
+    singularName: 'membership';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    department: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::department.department'
+    >;
+    edition: Schema.Attribute.Relation<'manyToOne', 'api::edition.edition'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::membership.membership'
+    > &
+      Schema.Attribute.Private;
+    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    person: Schema.Attribute.Relation<'manyToOne', 'api::person.person'>;
+    publishedAt: Schema.Attribute.DateTime;
+    role: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiNewsArticleNewsArticle extends Struct.CollectionTypeSchema {
   collectionName: 'news_articles';
   info: {
@@ -644,6 +713,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'blocks.link-list',
         'blocks.card-list',
         'blocks.person-grid',
+        'blocks.organization',
         'blocks.logo-grid',
         'blocks.team-grid',
         'blocks.world-map',
@@ -714,6 +784,10 @@ export interface ApiPersonPerson extends Struct.CollectionTypeSchema {
       'api::person.person'
     > &
       Schema.Attribute.Private;
+    memberships: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::membership.membership'
+    >;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     photo: Schema.Attribute.Media<'images'>;
     publishedAt: Schema.Attribute.DateTime;
@@ -1309,9 +1383,11 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::contact.contact': ApiContactContact;
+      'api::department.department': ApiDepartmentDepartment;
       'api::edition.edition': ApiEditionEdition;
       'api::global.global': ApiGlobalGlobal;
       'api::home.home': ApiHomeHome;
+      'api::membership.membership': ApiMembershipMembership;
       'api::news-article.news-article': ApiNewsArticleNewsArticle;
       'api::page.page': ApiPagePage;
       'api::partner.partner': ApiPartnerPartner;

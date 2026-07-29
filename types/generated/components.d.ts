@@ -21,30 +21,6 @@ export interface ArchiveAwardResult extends Struct.ComponentSchema {
   };
 }
 
-export interface ArchiveOrgGroup extends Struct.ComponentSchema {
-  collectionName: 'components_archive_org_groups';
-  info: {
-    displayName: 'Org Group';
-  };
-  attributes: {
-    members: Schema.Attribute.Component<'archive.org-member', true>;
-    name: Schema.Attribute.String & Schema.Attribute.Required;
-  };
-}
-
-export interface ArchiveOrgMember extends Struct.ComponentSchema {
-  collectionName: 'components_archive_org_members';
-  info: {
-    displayName: 'Org Member';
-  };
-  attributes: {
-    link: Schema.Attribute.String;
-    name: Schema.Attribute.String & Schema.Attribute.Required;
-    photo: Schema.Attribute.Media<'images'>;
-    role: Schema.Attribute.String;
-  };
-}
-
 export interface BlocksArchiveHub extends Struct.ComponentSchema {
   collectionName: 'components_blocks_archive_hubs';
   info: {
@@ -131,6 +107,19 @@ export interface BlocksLogoGrid extends Struct.ComponentSchema {
     columns: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<4>;
     partners: Schema.Attribute.Relation<'oneToMany', 'api::partner.partner'>;
     title: Schema.Attribute.String;
+  };
+}
+
+export interface BlocksOrganization extends Struct.ComponentSchema {
+  collectionName: 'components_blocks_organizations';
+  info: {
+    displayName: 'Organization';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    size: Schema.Attribute.Enumeration<['sm', 'md', 'lg']> &
+      Schema.Attribute.DefaultTo<'md'>;
+    title: Schema.Attribute.Component<'shared.highlighted-text', false>;
   };
 }
 
@@ -506,8 +495,6 @@ declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
       'archive.award-result': ArchiveAwardResult;
-      'archive.org-group': ArchiveOrgGroup;
-      'archive.org-member': ArchiveOrgMember;
       'blocks.archive-hub': BlocksArchiveHub;
       'blocks.card-list': BlocksCardList;
       'blocks.cta': BlocksCta;
@@ -515,6 +502,7 @@ declare module '@strapi/strapi' {
       'blocks.image': BlocksImage;
       'blocks.link-list': BlocksLinkList;
       'blocks.logo-grid': BlocksLogoGrid;
+      'blocks.organization': BlocksOrganization;
       'blocks.person-grid': BlocksPersonGrid;
       'blocks.rich-text': BlocksRichText;
       'blocks.schedule': BlocksSchedule;

@@ -32,6 +32,12 @@
     },
     "link": {
       "type": "string"
+    },
+    "memberships": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::membership.membership",
+      "mappedBy": "person"
     }
   }
 }

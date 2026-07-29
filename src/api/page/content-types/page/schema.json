@@ -42,6 +42,7 @@
         "blocks.link-list",
         "blocks.card-list",
         "blocks.person-grid",
+        "blocks.organization",
         "blocks.logo-grid",
         "blocks.team-grid",
         "blocks.world-map",

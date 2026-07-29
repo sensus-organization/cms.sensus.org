@@ -6,6 +6,8 @@ const SINGLE_ACTIONS = ['find'];
 const PUBLIC_PERMISSIONS: Record<string, string[]> = {
   'api::page.page': COLLECTION_ACTIONS,
   'api::person.person': COLLECTION_ACTIONS,
+  'api::department.department': COLLECTION_ACTIONS,
+  'api::membership.membership': COLLECTION_ACTIONS,
   'api::team.team': COLLECTION_ACTIONS,
   'api::edition.edition': COLLECTION_ACTIONS,
   'api::partner.partner': COLLECTION_ACTIONS,

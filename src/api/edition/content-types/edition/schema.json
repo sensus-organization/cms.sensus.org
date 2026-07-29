@@ -40,10 +40,11 @@
     "orgIntro": {
       "type": "text"
     },
-    "orgGroups": {
-      "type": "component",
-      "repeatable": true,
-      "component": "archive.org-group"
+    "memberships": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::membership.membership",
+      "mappedBy": "edition"
     }
   }
 }

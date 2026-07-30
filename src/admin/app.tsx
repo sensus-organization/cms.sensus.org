@@ -1,4 +1,6 @@
 const SUPER_ADMIN_CODE = 'strapi-super-admin';
+const HOME_PATHS = ['/admin', '/admin/'];
+const DEFAULT_PATH = '/admin/content-manager';
 const STYLE_ID = 'sensus-hide-settings';
 const HIDE_CSS = 'a[href="/admin/settings"] { display: none; }';
 
@@ -29,6 +31,13 @@ const setHidden = (hidden: boolean) => {
   style.id = STYLE_ID;
   style.textContent = HIDE_CSS;
   document.head.appendChild(style);
+};
+
+const redirectHome = () => {
+  if (!HOME_PATHS.includes(window.location.pathname)) return;
+  const state = window.history.state;
+  window.history.replaceState(state, '', `${DEFAULT_PATH}${window.location.search}`);
+  window.dispatchEvent(new PopStateEvent('popstate', { state }));
 };
 
 let lastToken: string | null = null;
@@ -72,12 +81,14 @@ const sync = async () => {
 export default {
   bootstrap() {
     safeSync();
+    redirectHome();
 
     for (const method of ['pushState', 'replaceState'] as const) {
       const original = window.history[method];
       window.history[method] = function patched(this: History, ...args: Parameters<typeof original>) {
         const result = original.apply(this, args);
         safeSync();
+        redirectHome();
         return result;
       };
     }

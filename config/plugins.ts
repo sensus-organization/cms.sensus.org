@@ -3,7 +3,13 @@ import type { Core } from '@strapi/strapi';
 const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin => ({
   upload: {
     config: {
-      sizeLimit: 50 * 1024 * 1024,
+      providerOptions: {
+        localServer: {
+          maxage: 31536000000,
+          immutable: true,
+        },
+      },
+      sizeLimit: 128 * 1024 * 1024,
       security: {
         allowedTypes: [
           'image/jpeg',

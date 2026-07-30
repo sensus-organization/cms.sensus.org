@@ -32,6 +32,17 @@ const splitName = (displayName: string, email: string) => {
   return { firstname: parts[0], lastname: parts.slice(1).join(' ') || undefined };
 };
 
+const hasLiveSession = async (strapi: Core.Strapi, token: string | undefined) => {
+  if (!token) return false;
+  try {
+    const { isValid } = await strapi.sessionManager('admin').validateRefreshToken(token);
+    return isValid;
+  } catch (error) {
+    strapi.log.warn(`[sso] could not validate refresh cookie: ${(error as Error).message}`);
+    return false;
+  }
+};
+
 const buildRefreshCookieOptions = (strapi: Core.Strapi, secureRequest: boolean) => {
   const configuredSecure = strapi.config.get('admin.auth.cookie.secure');
   const isProduction = process.env.NODE_ENV === 'production';
@@ -108,7 +119,10 @@ export default (_config: unknown, { strapi }: { strapi: Core.Strapi }) => {
     const email = ctx.get('x-auth-request-email').trim().toLowerCase();
 
     if (isAdminEntry) {
-      if (!trusted || !email || ctx.cookies.get(REFRESH_COOKIE_NAME)) {
+      if (!trusted || !email) {
+        return next();
+      }
+      if (await hasLiveSession(strapi, ctx.cookies.get(REFRESH_COOKIE_NAME))) {
         return next();
       }
       ctx.set('Cache-Control', 'no-store');

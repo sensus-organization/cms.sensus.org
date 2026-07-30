@@ -1,20 +1,6 @@
 const SUPER_ADMIN_CODE = 'strapi-super-admin';
 const STYLE_ID = 'sensus-hide-settings';
 const HIDE_CSS = 'a[href="/admin/settings"] { display: none; }';
-const REAUTH_URL = '/oauth2/start?rd=%2Fadmin';
-
-const isProxyChallenge = (res: Response) =>
-  res.status === 401 &&
-  res.url.startsWith(`${window.location.origin}/`) &&
-  (res.headers.get('content-type') ?? '').includes('text/html');
-
-let reauthenticating = false;
-
-const reauthenticate = () => {
-  if (reauthenticating) return;
-  reauthenticating = true;
-  window.location.assign(REAUTH_URL);
-};
 
 const readToken = (): string | null => {
   const raw = window.localStorage.getItem('jwtToken');
@@ -85,13 +71,6 @@ const sync = async () => {
 
 export default {
   bootstrap() {
-    const originalFetch = window.fetch;
-    window.fetch = async function patched(...args: Parameters<typeof fetch>) {
-      const res = await originalFetch.apply(this, args);
-      if (isProxyChallenge(res)) reauthenticate();
-      return res;
-    };
-
     safeSync();
 
     for (const method of ['pushState', 'replaceState'] as const) {

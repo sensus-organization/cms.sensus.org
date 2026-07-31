@@ -18,6 +18,9 @@ const PUBLIC_PERMISSIONS: Record<string, string[]> = {
   'api::contact.contact': SINGLE_ACTIONS,
 };
 
+const LIST_PAGE_SIZE = 100;
+const STRAPI_DEFAULT_PAGE_SIZE = 10;
+
 const REVOKED_PUBLIC_PREFIXES = [
   'plugin::users-permissions.auth.',
   'plugin::users-permissions.user.',
@@ -104,6 +107,22 @@ async function lockDownUsersPermissions(strapi: Core.Strapi) {
   );
 }
 
+async function setListPageSize(strapi: Core.Strapi) {
+  const service = strapi.plugin('content-manager').service('content-types') as any;
+  let updated = 0;
+  for (const contentType of service.findDisplayedContentTypes()) {
+    if (contentType.kind !== 'collectionType') continue;
+    const configuration = await service.findConfiguration(contentType);
+    if (configuration.settings?.pageSize !== STRAPI_DEFAULT_PAGE_SIZE) continue;
+    await service.updateConfiguration(contentType, {
+      ...configuration,
+      settings: { ...configuration.settings, pageSize: LIST_PAGE_SIZE },
+    });
+    updated += 1;
+  }
+  if (updated > 0) strapi.log.info(`[admin] list view page size set to ${LIST_PAGE_SIZE} for ${updated} content type(s)`);
+}
+
 export default {
   register({ strapi }: { strapi: Core.Strapi }) {
     if (process.env.NODE_ENV !== 'production') return;
@@ -128,5 +147,6 @@ export default {
     }
 
     await lockDownUsersPermissions(strapi);
+    await setListPageSize(strapi);
   },
 };

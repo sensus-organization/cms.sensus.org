@@ -1,6 +1,6 @@
 const SUPER_ADMIN_CODE = 'strapi-super-admin';
-const HOME_PATHS = ['/admin', '/admin/'];
-const DEFAULT_PATH = '/admin/content-manager';
+const HOME_PATHS = ['/admin', '/admin/', '/admin/content-manager', '/admin/content-manager/'];
+const DEFAULT_PATH = '/admin/content-manager/collection-types/api::page.page';
 const STYLE_ID = 'sensus-hide-settings';
 const HIDE_CSS = 'a[href="/admin/settings"] { display: none; }';
 

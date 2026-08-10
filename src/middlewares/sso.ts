@@ -24,6 +24,18 @@ const isLoopbackRequest = (ctx: any) => {
   return LOOPBACK_HOSTS.has(host) && (remote === '127.0.0.1' || remote === '::1');
 };
 
+const isAdminNavigation = (ctx: any, adminPath: string) => {
+  if (ctx.method !== 'GET') return false;
+  if (ctx.path === adminPath || ctx.path === `${adminPath}/`) return true;
+  if (!ctx.path.startsWith(`${adminPath}/`) || ctx.path.startsWith(`${adminPath}/auth/`)) return false;
+  return ctx.get('sec-fetch-mode') === 'navigate' || ctx.get('sec-fetch-dest') === 'document';
+};
+
+const resolveTarget = (raw: unknown, adminPath: string) => {
+  const target = typeof raw === 'string' ? raw : '';
+  return target.startsWith(`${adminPath}/`) && !/[\\\r\n]/.test(target) ? target : adminPath;
+};
+
 const splitName = (displayName: string, email: string) => {
   const parts = displayName.trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) {
@@ -108,7 +120,7 @@ export default (_config: unknown, { strapi }: { strapi: Core.Strapi }) => {
 
     const adminPath = strapi.config.get('admin.path', '/admin') as string;
     const isBridge = ctx.path === SSO_PATH;
-    const isAdminEntry = ctx.method === 'GET' && (ctx.path === adminPath || ctx.path === `${adminPath}/`);
+    const isAdminEntry = isAdminNavigation(ctx, adminPath);
 
     if (!isBridge && !isAdminEntry) {
       return next();
@@ -126,7 +138,7 @@ export default (_config: unknown, { strapi }: { strapi: Core.Strapi }) => {
         return next();
       }
       ctx.set('Cache-Control', 'no-store');
-      return ctx.redirect(SSO_PATH);
+      return ctx.redirect(`${SSO_PATH}?rd=${encodeURIComponent(ctx.originalUrl)}`);
     }
 
     ctx.set('Cache-Control', 'no-store');
@@ -288,7 +300,7 @@ export default (_config: unknown, { strapi }: { strapi: Core.Strapi }) => {
       strapi.log.info(`[sso] login success for ${email} (id=${user.id})`);
       ctx.status = 200;
       ctx.type = 'html';
-      ctx.body = renderBridgePage(accessResult.token, deviceId, adminPath);
+      ctx.body = renderBridgePage(accessResult.token, deviceId, resolveTarget(ctx.query.rd, adminPath));
     } catch (error) {
       strapi.log.error(`[sso] login failed for ${email}: ${(error as Error).message}`);
       ctx.status = 500;

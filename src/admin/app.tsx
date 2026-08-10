@@ -3,6 +3,10 @@ const HOME_PATHS = ['/admin', '/admin/', '/admin/content-manager', '/admin/conte
 const DEFAULT_PATH = '/admin/content-manager/collection-types/api::page.page';
 const STYLE_ID = 'sensus-hide-settings';
 const HIDE_CSS = 'a[href="/admin/settings"] { display: none; }';
+const SSO_LINK_ID = 'sensus-sso-link';
+const SSO_PATH = '/admin-sso';
+const LOGIN_PATH = '/admin/auth/login';
+const FORGOT_SELECTOR = 'a[href="/admin/auth/forgot-password"]';
 
 const readToken = (): string | null => {
   const raw = window.localStorage.getItem('jwtToken');
@@ -31,6 +35,33 @@ const setHidden = (hidden: boolean) => {
   style.id = STYLE_ID;
   style.textContent = HIDE_CSS;
   document.head.appendChild(style);
+};
+
+const addSsoLink = () => {
+  if (window.location.pathname !== LOGIN_PATH) {
+    document.getElementById(SSO_LINK_ID)?.remove();
+    return;
+  }
+  if (document.getElementById(SSO_LINK_ID)) return;
+
+  const forgot = document.querySelector<HTMLAnchorElement>(FORGOT_SELECTOR);
+  const anchor = forgot?.parentElement?.parentElement;
+  if (!forgot || !anchor) return;
+
+  const link = document.createElement('a');
+  link.id = SSO_LINK_ID;
+  link.href = SSO_PATH;
+  link.className = forgot.className;
+
+  const label = document.createElement('span');
+  label.className = forgot.firstElementChild?.className ?? '';
+  label.textContent = 'Sign in with SensUs Identity';
+  link.appendChild(label);
+
+  const row = document.createElement('div');
+  row.style.cssText = 'display:flex;justify-content:center;padding-top:8px';
+  row.appendChild(link);
+  anchor.insertAdjacentElement('afterend', row);
 };
 
 const redirectHome = () => {
@@ -82,6 +113,7 @@ export default {
   bootstrap() {
     safeSync();
     redirectHome();
+    addSsoLink();
 
     for (const method of ['pushState', 'replaceState'] as const) {
       const original = window.history[method];
@@ -89,11 +121,14 @@ export default {
         const result = original.apply(this, args);
         safeSync();
         redirectHome();
+        addSsoLink();
         return result;
       };
     }
 
+    new MutationObserver(addSsoLink).observe(document.body, { childList: true, subtree: true });
     window.addEventListener('popstate', safeSync);
+    window.addEventListener('popstate', addSsoLink);
     window.addEventListener('storage', safeSync);
   },
 };

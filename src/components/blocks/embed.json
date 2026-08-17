@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_blocks_embeds",
+  "info": {
+    "displayName": "Embed"
+  },
+  "options": {},
+  "attributes": {
+    "url": {
+      "type": "string",
+      "required": true
+    },
+    "title": {
+      "type": "string"
+    },
+    "aspectRatio": {
+      "type": "enumeration",
+      "enum": [
+        "16:9",
+        "4:3",
+        "1:1",
+        "A4"
+      ],
+      "default": "16:9"
+    }
+  }
+}

@@ -59,6 +59,19 @@ export interface BlocksCta extends Struct.ComponentSchema {
   };
 }
 
+export interface BlocksEmbed extends Struct.ComponentSchema {
+  collectionName: 'components_blocks_embeds';
+  info: {
+    displayName: 'Embed';
+  };
+  attributes: {
+    aspectRatio: Schema.Attribute.Enumeration<['16:9', '4:3', '1:1', 'A4']> &
+      Schema.Attribute.DefaultTo<'16:9'>;
+    title: Schema.Attribute.String;
+    url: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface BlocksFeature extends Struct.ComponentSchema {
   collectionName: 'components_blocks_features';
   info: {
@@ -498,6 +511,7 @@ declare module '@strapi/strapi' {
       'blocks.archive-hub': BlocksArchiveHub;
       'blocks.card-list': BlocksCardList;
       'blocks.cta': BlocksCta;
+      'blocks.embed': BlocksEmbed;
       'blocks.feature': BlocksFeature;
       'blocks.image': BlocksImage;
       'blocks.link-list': BlocksLinkList;

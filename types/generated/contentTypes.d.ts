@@ -708,6 +708,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'blocks.feature',
         'blocks.cta',
         'blocks.video',
+        'blocks.embed',
         'blocks.image',
         'blocks.schedule',
         'blocks.link-list',

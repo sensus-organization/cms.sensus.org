@@ -83,9 +83,9 @@ const middleware: Core.MiddlewareFactory = (_config, { strapi }) => {
     if (rule.preserveQuery && ctx.querystring) appendQuery(destination, ctx.querystring);
 
     const status = Number(rule.redirectStatus);
+    ctx.body = '';
     ctx.status = ALLOWED_STATUSES.has(status) ? status : 302;
     ctx.set('Location', destination.toString());
-    ctx.body = null;
   };
 };
 

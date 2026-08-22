@@ -17,6 +17,8 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
           'image/webp',
           'image/gif',
           'image/avif',
+          'video/mp4',
+          'video/quicktime',
           'application/pdf',
         ],
       },

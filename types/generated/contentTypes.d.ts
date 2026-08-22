@@ -800,6 +800,48 @@ export interface ApiPersonPerson extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiSubdomainRedirectSubdomainRedirect
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'subdomain_redirects';
+  info: {
+    description: 'Redirect a published hostname to an external HTTPS URL';
+    displayName: 'Subdomain Redirect';
+    pluralName: 'subdomain-redirects';
+    singularName: 'subdomain-redirect';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    destination: Schema.Attribute.String & Schema.Attribute.Required;
+    hostname: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::subdomain-redirect.subdomain-redirect'
+    > &
+      Schema.Attribute.Private;
+    preservePath: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
+    preserveQuery: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
+    publishedAt: Schema.Attribute.DateTime;
+    redirectStatus: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'302'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiTeamTeam extends Struct.CollectionTypeSchema {
   collectionName: 'teams';
   info: {
@@ -1393,6 +1435,7 @@ declare module '@strapi/strapi' {
       'api::page.page': ApiPagePage;
       'api::partner.partner': ApiPartnerPartner;
       'api::person.person': ApiPersonPerson;
+      'api::subdomain-redirect.subdomain-redirect': ApiSubdomainRedirectSubdomainRedirect;
       'api::team.team': ApiTeamTeam;
       'api::timeline-event.timeline-event': ApiTimelineEventTimelineEvent;
       'plugin::content-releases.release': PluginContentReleasesRelease;

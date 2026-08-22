@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "subdomain_redirects",
+  "info": {
+    "singularName": "subdomain-redirect",
+    "pluralName": "subdomain-redirects",
+    "displayName": "Subdomain Redirect",
+    "description": "Redirect a published hostname to an external HTTPS URL"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "hostname": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "regex": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$"
+    },
+    "destination": {
+      "type": "string",
+      "required": true,
+      "regex": "^https://[^\\s]+$"
+    },
+    "redirectStatus": {
+      "type": "string",
+      "regex": "^(301|302|307|308)$",
+      "default": "302",
+      "required": true
+    },
+    "preservePath": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "preserveQuery": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    }
+  }
+}

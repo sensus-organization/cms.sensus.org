@@ -27,7 +27,6 @@ const appendQuery = (destination: URL, querystring: string) => {
 
 const middleware: Core.MiddlewareFactory = (_config, { strapi }) => {
   const baseDomain = normalizeHostname(process.env.REDIRECT_BASE_DOMAIN || 'sensus.org');
-  const mediaBaseUrl = process.env.REDIRECT_MEDIA_BASE_URL || `https://cms.${baseDomain}`;
   const reservedHosts = new Set(
     (process.env.REDIRECT_RESERVED_HOSTS || `cms.${baseDomain}`)
       .split(',')
@@ -57,7 +56,7 @@ const middleware: Core.MiddlewareFactory = (_config, { strapi }) => {
     const rule = await strapi.db.query('api::subdomain-redirect.subdomain-redirect').findOne({
       where: { hostname, publishedAt: { $notNull: true } },
       select: ['destination', 'redirectStatus', 'preservePath', 'preserveQuery'],
-      populate: { media: { select: ['url', 'updatedAt'] } },
+      populate: { media: { select: ['url'] } },
     });
 
     if (!rule) {
@@ -66,12 +65,28 @@ const middleware: Core.MiddlewareFactory = (_config, { strapi }) => {
       return;
     }
 
+    if (rule.media?.url) {
+      const mediaUrl = String(rule.media.url);
+      if (!mediaUrl.startsWith('/uploads/')) {
+        strapi.log.error(`[redirect] media for ${hostname} is not a local upload: ${mediaUrl}`);
+        ctx.status = 500;
+        ctx.body = 'Redirect Misconfigured';
+        return;
+      }
+
+      const originalUrl = ctx.url;
+      try {
+        ctx.path = mediaUrl;
+        await next();
+      } finally {
+        ctx.url = originalUrl;
+      }
+      return;
+    }
+
     let destination: URL;
     try {
-      if (rule.media?.url) {
-        destination = new URL(String(rule.media.url), mediaBaseUrl);
-        destination.searchParams.set('v', new Date(rule.media.updatedAt).toISOString());
-      } else if (rule.destination) {
+      if (rule.destination) {
         destination = new URL(String(rule.destination));
       } else {
         throw new Error('either destination or media must be set');

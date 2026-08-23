@@ -804,7 +804,7 @@ export interface ApiSubdomainRedirectSubdomainRedirect
   extends Struct.CollectionTypeSchema {
   collectionName: 'subdomain_redirects';
   info: {
-    description: 'Redirect a published hostname to an external HTTPS URL';
+    description: 'Redirect a published hostname to an HTTPS URL or CMS media item';
     displayName: 'Subdomain Redirect';
     pluralName: 'subdomain-redirects';
     singularName: 'subdomain-redirect';
@@ -816,7 +816,7 @@ export interface ApiSubdomainRedirectSubdomainRedirect
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    destination: Schema.Attribute.String & Schema.Attribute.Required;
+    destination: Schema.Attribute.String;
     hostname: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
@@ -826,6 +826,7 @@ export interface ApiSubdomainRedirectSubdomainRedirect
       'api::subdomain-redirect.subdomain-redirect'
     > &
       Schema.Attribute.Private;
+    media: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     preservePath: Schema.Attribute.Boolean &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<false>;

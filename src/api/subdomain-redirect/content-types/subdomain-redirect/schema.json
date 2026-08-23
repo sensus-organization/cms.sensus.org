@@ -5,7 +5,7 @@
     "singularName": "subdomain-redirect",
     "pluralName": "subdomain-redirects",
     "displayName": "Subdomain Redirect",
-    "description": "Redirect a published hostname to an external HTTPS URL"
+    "description": "Redirect a published hostname to an HTTPS URL or CMS media item"
   },
   "options": {
     "draftAndPublish": true
@@ -19,8 +19,17 @@
     },
     "destination": {
       "type": "string",
-      "required": true,
       "regex": "^https://[^\\s]+$"
+    },
+    "media": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     },
     "redirectStatus": {
       "type": "string",

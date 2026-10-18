@@ -447,8 +447,6 @@ export interface ApiContactContact extends Struct.SingleTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    donationUrl: Schema.Attribute.String;
-    email: Schema.Attribute.Email;
     generalTitle: Schema.Attribute.String;
     header: Schema.Attribute.Component<'shared.hero', false>;
     legal: Schema.Attribute.Component<'shared.stat', true>;
@@ -458,42 +456,8 @@ export interface ApiContactContact extends Struct.SingleTypeSchema {
       'api::contact.contact'
     > &
       Schema.Attribute.Private;
-    mapsUrl: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     seo: Schema.Attribute.Component<'shared.seo', false>;
-    shippingAddress: Schema.Attribute.Component<'shared.address', false>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    visitingAddress: Schema.Attribute.Component<'shared.address', false>;
-  };
-}
-
-export interface ApiDepartmentDepartment extends Struct.CollectionTypeSchema {
-  collectionName: 'departments';
-  info: {
-    displayName: 'Department';
-    pluralName: 'departments';
-    singularName: 'department';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::department.department'
-    > &
-      Schema.Attribute.Private;
-    name: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
-    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
-    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -512,9 +476,11 @@ export interface ApiEditionEdition extends Struct.CollectionTypeSchema {
   };
   attributes: {
     biomarker: Schema.Attribute.String;
+    challenge: Schema.Attribute.Text;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
     links: Schema.Attribute.Component<'shared.link', true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -522,19 +488,15 @@ export interface ApiEditionEdition extends Struct.CollectionTypeSchema {
       'api::edition.edition'
     > &
       Schema.Attribute.Private;
-    memberships: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::membership.membership'
-    >;
-    orgIntro: Schema.Attribute.Text;
     publishedAt: Schema.Attribute.DateTime;
     results: Schema.Attribute.Component<'archive.award-result', true>;
-    summary: Schema.Attribute.Text;
     themeContent: Schema.Attribute.Blocks;
+    thumbnail: Schema.Attribute.Media<'images'>;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    videoUrl: Schema.Attribute.String;
     year: Schema.Attribute.Integer &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
@@ -552,12 +514,11 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
-    addresses: Schema.Attribute.Component<'shared.address', true>;
     contactEmail: Schema.Attribute.Email;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    currentYear: Schema.Attribute.Integer;
+    currentYear: Schema.Attribute.Integer & Schema.Attribute.Required;
     donationUrl: Schema.Attribute.String;
     legalLinks: Schema.Attribute.Component<'shared.link', true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -566,13 +527,16 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
       'api::global.global'
     > &
       Schema.Attribute.Private;
+    mapsUrl: Schema.Attribute.String;
     navigation: Schema.Attribute.Component<'shared.nav-item', true>;
     publishedAt: Schema.Attribute.DateTime;
     seo: Schema.Attribute.Component<'shared.seo', false>;
+    shippingAddress: Schema.Attribute.Component<'shared.address', false>;
     socialLinks: Schema.Attribute.Component<'shared.social-link', true>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    visitingAddress: Schema.Attribute.Component<'shared.address', false>;
   };
 }
 
@@ -602,42 +566,6 @@ export interface ApiHomeHome extends Struct.SingleTypeSchema {
     seo: Schema.Attribute.Component<'shared.seo', false>;
     symposium: Schema.Attribute.Component<'home.symposium', false>;
     teamsSection: Schema.Attribute.Component<'home.teams-section', false>;
-    theme: Schema.Attribute.Component<'home.theme', false>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiMembershipMembership extends Struct.CollectionTypeSchema {
-  collectionName: 'memberships';
-  info: {
-    displayName: 'Membership';
-    pluralName: 'memberships';
-    singularName: 'membership';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    department: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::department.department'
-    >;
-    edition: Schema.Attribute.Relation<'manyToOne', 'api::edition.edition'>;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::membership.membership'
-    > &
-      Schema.Attribute.Private;
-    order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
-    person: Schema.Attribute.Relation<'manyToOne', 'api::person.person'>;
-    publishedAt: Schema.Attribute.DateTime;
-    role: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -655,7 +583,6 @@ export interface ApiNewsArticleNewsArticle extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    body: Schema.Attribute.Blocks;
     cardImage: Schema.Attribute.Media<'images'>;
     cardTitle: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
@@ -679,6 +606,39 @@ export interface ApiNewsArticleNewsArticle extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiOrganizationOrganization
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'organizations';
+  info: {
+    description: 'The organizing team of one year. The website shows the newest published one.';
+    displayName: 'Organization';
+    pluralName: 'organizations';
+    singularName: 'organization';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    departments: Schema.Attribute.Component<'people.department', true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::organization.organization'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    year: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
   };
 }
 
@@ -714,12 +674,9 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'blocks.link-list',
         'blocks.card-list',
         'blocks.person-grid',
-        'blocks.organization',
         'blocks.logo-grid',
-        'blocks.team-grid',
-        'blocks.world-map',
         'blocks.timeline',
-        'blocks.archive-hub',
+        'blocks.widget',
       ]
     >;
     seo: Schema.Attribute.Component<'shared.seo', false>;
@@ -760,43 +717,6 @@ export interface ApiPartnerPartner extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     url: Schema.Attribute.String;
-  };
-}
-
-export interface ApiPersonPerson extends Struct.CollectionTypeSchema {
-  collectionName: 'people';
-  info: {
-    displayName: 'Person';
-    pluralName: 'people';
-    singularName: 'person';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    affiliation: Schema.Attribute.String;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    link: Schema.Attribute.String;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::person.person'
-    > &
-      Schema.Attribute.Private;
-    memberships: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::membership.membership'
-    >;
-    name: Schema.Attribute.String & Schema.Attribute.Required;
-    photo: Schema.Attribute.Media<'images'>;
-    publishedAt: Schema.Attribute.DateTime;
-    role: Schema.Attribute.String;
-    title: Schema.Attribute.String;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
   };
 }
 
@@ -861,6 +781,7 @@ export interface ApiTeamTeam extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
     image: Schema.Attribute.Media<'images'>;
+    label: Schema.Attribute.String;
     lat: Schema.Attribute.Decimal;
     lng: Schema.Attribute.Decimal;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -874,44 +795,6 @@ export interface ApiTeamTeam extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     year: Schema.Attribute.Integer;
-  };
-}
-
-export interface ApiTimelineEventTimelineEvent
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'timeline_events';
-  info: {
-    displayName: 'Timeline Event';
-    pluralName: 'timeline-events';
-    singularName: 'timeline-event';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    biomarker: Schema.Attribute.String;
-    color: Schema.Attribute.String;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    current: Schema.Attribute.Boolean;
-    description: Schema.Attribute.Text;
-    icon: Schema.Attribute.String;
-    link: Schema.Attribute.String;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::timeline-event.timeline-event'
-    > &
-      Schema.Attribute.Private;
-    milestone: Schema.Attribute.Boolean;
-    order: Schema.Attribute.Integer;
-    publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    year: Schema.Attribute.String;
   };
 }
 
@@ -1427,18 +1310,15 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::contact.contact': ApiContactContact;
-      'api::department.department': ApiDepartmentDepartment;
       'api::edition.edition': ApiEditionEdition;
       'api::global.global': ApiGlobalGlobal;
       'api::home.home': ApiHomeHome;
-      'api::membership.membership': ApiMembershipMembership;
       'api::news-article.news-article': ApiNewsArticleNewsArticle;
+      'api::organization.organization': ApiOrganizationOrganization;
       'api::page.page': ApiPagePage;
       'api::partner.partner': ApiPartnerPartner;
-      'api::person.person': ApiPersonPerson;
       'api::subdomain-redirect.subdomain-redirect': ApiSubdomainRedirectSubdomainRedirect;
       'api::team.team': ApiTeamTeam;
-      'api::timeline-event.timeline-event': ApiTimelineEventTimelineEvent;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

@@ -15,6 +15,11 @@
     },
     "description": {
       "type": "text"
+    },
+    "events": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.timeline-event"
     }
   }
 }

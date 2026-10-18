@@ -20,16 +20,6 @@
       "repeatable": false,
       "component": "shared.hero"
     },
-    "visitingAddress": {
-      "type": "component",
-      "repeatable": false,
-      "component": "shared.address"
-    },
-    "shippingAddress": {
-      "type": "component",
-      "repeatable": false,
-      "component": "shared.address"
-    },
     "bankTitle": {
       "type": "string"
     },
@@ -44,19 +34,10 @@
     "generalTitle": {
       "type": "string"
     },
-    "email": {
-      "type": "email"
-    },
     "legal": {
       "type": "component",
       "repeatable": true,
       "component": "shared.stat"
-    },
-    "mapsUrl": {
-      "type": "string"
-    },
-    "donationUrl": {
-      "type": "string"
     }
   }
 }

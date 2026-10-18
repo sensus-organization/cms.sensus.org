@@ -43,9 +43,6 @@
         "images"
       ]
     },
-    "body": {
-      "type": "blocks"
-    },
     "sections": {
       "type": "component",
       "repeatable": true,

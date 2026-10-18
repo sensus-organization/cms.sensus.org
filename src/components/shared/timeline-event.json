@@ -1,0 +1,41 @@
+{
+  "collectionName": "components_shared_timeline_events",
+  "info": {
+    "displayName": "Timeline Event"
+  },
+  "options": {},
+  "attributes": {
+    "year": {
+      "type": "integer",
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "biomarker": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "color": {
+      "type": "enumeration",
+      "enum": [
+        "red",
+        "blue",
+        "teal",
+        "orange",
+        "green"
+      ],
+      "default": "red"
+    },
+    "milestone": {
+      "type": "boolean",
+      "default": false
+    },
+    "link": {
+      "type": "string"
+    }
+  }
+}

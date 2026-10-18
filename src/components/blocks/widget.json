@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_blocks_widgets",
+  "info": {
+    "displayName": "Widget",
+    "description": "Section filled automatically from other content (teams, map, archive, organization)"
+  },
+  "options": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "teams",
+        "world-map",
+        "archive",
+        "organization"
+      ],
+      "required": true
+    },
+    "label": {
+      "type": "string"
+    },
+    "title": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.highlighted-text"
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}

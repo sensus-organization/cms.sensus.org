@@ -21,8 +21,21 @@
     "biomarker": {
       "type": "string"
     },
-    "summary": {
+    "description": {
       "type": "text"
+    },
+    "challenge": {
+      "type": "text"
+    },
+    "videoUrl": {
+      "type": "string"
+    },
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
     },
     "themeContent": {
       "type": "blocks"
@@ -36,15 +49,6 @@
       "type": "component",
       "repeatable": true,
       "component": "archive.award-result"
-    },
-    "orgIntro": {
-      "type": "text"
-    },
-    "memberships": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::membership.membership",
-      "mappedBy": "edition"
     }
   }
 }

@@ -20,10 +20,18 @@
       "repeatable": true,
       "component": "shared.social-link"
     },
-    "addresses": {
+    "visitingAddress": {
       "type": "component",
-      "repeatable": true,
+      "repeatable": false,
       "component": "shared.address"
+    },
+    "shippingAddress": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.address"
+    },
+    "mapsUrl": {
+      "type": "string"
     },
     "contactEmail": {
       "type": "email"
@@ -42,7 +50,8 @@
       "component": "shared.seo"
     },
     "currentYear": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     }
   }
 }

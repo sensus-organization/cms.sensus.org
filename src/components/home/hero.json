@@ -15,11 +15,10 @@
         "images"
       ]
     },
-    "titleBefore": {
-      "type": "string"
-    },
-    "titleHighlighted": {
-      "type": "string"
+    "title": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.highlighted-text"
     },
     "subtitle": {
       "type": "text"

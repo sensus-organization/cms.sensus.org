@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_people_departments",
+  "info": {
+    "displayName": "Department"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "members": {
+      "type": "component",
+      "repeatable": true,
+      "component": "people.person"
+    }
+  }
+}

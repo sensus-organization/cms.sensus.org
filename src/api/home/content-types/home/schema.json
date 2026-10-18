@@ -30,11 +30,6 @@
       "repeatable": false,
       "component": "home.teams-section"
     },
-    "theme": {
-      "type": "component",
-      "repeatable": false,
-      "component": "home.theme"
-    },
     "symposium": {
       "type": "component",
       "repeatable": false,

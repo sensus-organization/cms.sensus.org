@@ -1,23 +1,15 @@
 {
-  "kind": "collectionType",
-  "collectionName": "people",
+  "collectionName": "components_people_people",
   "info": {
-    "singularName": "person",
-    "pluralName": "people",
     "displayName": "Person"
   },
-  "options": {
-    "draftAndPublish": false
-  },
+  "options": {},
   "attributes": {
     "name": {
       "type": "string",
       "required": true
     },
     "role": {
-      "type": "string"
-    },
-    "title": {
       "type": "string"
     },
     "affiliation": {
@@ -32,12 +24,6 @@
     },
     "link": {
       "type": "string"
-    },
-    "memberships": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::membership.membership",
-      "mappedBy": "person"
     }
   }
 }

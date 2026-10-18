@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "organizations",
+  "info": {
+    "singularName": "organization",
+    "pluralName": "organizations",
+    "displayName": "Organization",
+    "description": "The organizing team of one year. The website shows the newest published one."
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "year": {
+      "type": "integer",
+      "required": true,
+      "unique": true
+    },
+    "departments": {
+      "type": "component",
+      "repeatable": true,
+      "component": "people.department"
+    }
+  }
+}

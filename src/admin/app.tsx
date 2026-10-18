@@ -71,6 +71,26 @@ const redirectHome = () => {
   window.dispatchEvent(new PopStateEvent('popstate', { state }));
 };
 
+// The admin remembers each list view's columns and sort in the browser and then ignores the server
+// defaults (year columns, newest-first sorting). Bump this when those defaults change so every editor
+// picks them up once; changes they make afterwards are kept.
+const LIST_VIEW_DEFAULTS_VERSION = '1';
+const LIST_VIEW_DEFAULTS_KEY = 'sensus-list-view-defaults';
+const LIST_VIEW_PREFIXES = ['STRAPI_LIST_VIEW_DISPLAYED_HEADERS:', 'STRAPI_LIST_VIEW_SETTINGS:'];
+
+const resetListViewSettings = () => {
+  try {
+    if (window.localStorage.getItem(LIST_VIEW_DEFAULTS_KEY) === LIST_VIEW_DEFAULTS_VERSION) return;
+    const stale = Object.keys(window.localStorage).filter((key) =>
+      LIST_VIEW_PREFIXES.some((prefix) => key.startsWith(prefix))
+    );
+    stale.forEach((key) => window.localStorage.removeItem(key));
+    window.localStorage.setItem(LIST_VIEW_DEFAULTS_KEY, LIST_VIEW_DEFAULTS_VERSION);
+  } catch {
+    // storage unavailable: the admin just keeps its own settings
+  }
+};
+
 let lastToken: string | null = null;
 
 const safeSync = () => {
@@ -111,6 +131,7 @@ const sync = async () => {
 
 export default {
   bootstrap() {
+    resetListViewSettings();
     safeSync();
     redirectHome();
     addSsoLink();

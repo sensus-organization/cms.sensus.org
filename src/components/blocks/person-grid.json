@@ -22,18 +22,10 @@
       ],
       "default": "md"
     },
-    "showRole": {
-      "type": "boolean",
-      "default": true
-    },
-    "showAffiliation": {
-      "type": "boolean",
-      "default": false
-    },
     "people": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::person.person"
+      "type": "component",
+      "repeatable": true,
+      "component": "people.person"
     }
   }
 }

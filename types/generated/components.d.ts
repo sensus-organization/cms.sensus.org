@@ -15,21 +15,9 @@ export interface ArchiveAwardResult extends Struct.ComponentSchema {
       ]
     > &
       Schema.Attribute.Required;
-    first: Schema.Attribute.Relation<'oneToOne', 'api::team.team'>;
-    second: Schema.Attribute.Relation<'oneToOne', 'api::team.team'>;
-    third: Schema.Attribute.Relation<'oneToOne', 'api::team.team'>;
-  };
-}
-
-export interface BlocksArchiveHub extends Struct.ComponentSchema {
-  collectionName: 'components_blocks_archive_hubs';
-  info: {
-    displayName: 'Archive Hub';
-  };
-  attributes: {
-    description: Schema.Attribute.Text;
-    label: Schema.Attribute.String;
-    title: Schema.Attribute.Component<'shared.highlighted-text', false>;
+    first: Schema.Attribute.Relation<'manyToOne', 'api::team.team'>;
+    second: Schema.Attribute.Relation<'manyToOne', 'api::team.team'>;
+    third: Schema.Attribute.Relation<'manyToOne', 'api::team.team'>;
   };
 }
 
@@ -123,19 +111,6 @@ export interface BlocksLogoGrid extends Struct.ComponentSchema {
   };
 }
 
-export interface BlocksOrganization extends Struct.ComponentSchema {
-  collectionName: 'components_blocks_organizations';
-  info: {
-    displayName: 'Organization';
-  };
-  attributes: {
-    description: Schema.Attribute.Text;
-    size: Schema.Attribute.Enumeration<['sm', 'md', 'lg']> &
-      Schema.Attribute.DefaultTo<'md'>;
-    title: Schema.Attribute.Component<'shared.highlighted-text', false>;
-  };
-}
-
 export interface BlocksPersonGrid extends Struct.ComponentSchema {
   collectionName: 'components_blocks_person_grids';
   info: {
@@ -143,10 +118,7 @@ export interface BlocksPersonGrid extends Struct.ComponentSchema {
   };
   attributes: {
     description: Schema.Attribute.Text;
-    people: Schema.Attribute.Relation<'oneToMany', 'api::person.person'>;
-    showAffiliation: Schema.Attribute.Boolean &
-      Schema.Attribute.DefaultTo<false>;
-    showRole: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    people: Schema.Attribute.Component<'people.person', true>;
     size: Schema.Attribute.Enumeration<['sm', 'md', 'lg']> &
       Schema.Attribute.DefaultTo<'md'>;
     title: Schema.Attribute.Component<'shared.highlighted-text', false>;
@@ -188,18 +160,6 @@ export interface BlocksSectionHeader extends Struct.ComponentSchema {
   };
 }
 
-export interface BlocksTeamGrid extends Struct.ComponentSchema {
-  collectionName: 'components_blocks_team_grids';
-  info: {
-    displayName: 'Team Grid';
-  };
-  attributes: {
-    description: Schema.Attribute.Text;
-    label: Schema.Attribute.String;
-    title: Schema.Attribute.Component<'shared.highlighted-text', false>;
-  };
-}
-
 export interface BlocksTimeline extends Struct.ComponentSchema {
   collectionName: 'components_blocks_timelines';
   info: {
@@ -207,6 +167,7 @@ export interface BlocksTimeline extends Struct.ComponentSchema {
   };
   attributes: {
     description: Schema.Attribute.Text;
+    events: Schema.Attribute.Component<'shared.timeline-event', true>;
     label: Schema.Attribute.String;
     title: Schema.Attribute.Component<'shared.highlighted-text', false>;
   };
@@ -224,13 +185,20 @@ export interface BlocksVideo extends Struct.ComponentSchema {
   };
 }
 
-export interface BlocksWorldMap extends Struct.ComponentSchema {
-  collectionName: 'components_blocks_world_maps';
+export interface BlocksWidget extends Struct.ComponentSchema {
+  collectionName: 'components_blocks_widgets';
   info: {
-    displayName: 'World Map';
+    description: 'Section filled automatically from other content (teams, map, archive, organization)';
+    displayName: 'Widget';
   };
   attributes: {
-    title: Schema.Attribute.String;
+    description: Schema.Attribute.Text;
+    label: Schema.Attribute.String;
+    title: Schema.Attribute.Component<'shared.highlighted-text', false>;
+    type: Schema.Attribute.Enumeration<
+      ['teams', 'world-map', 'archive', 'organization']
+    > &
+      Schema.Attribute.Required;
   };
 }
 
@@ -256,8 +224,7 @@ export interface HomeHero extends Struct.ComponentSchema {
     buttons: Schema.Attribute.Component<'shared.button', true>;
     poster: Schema.Attribute.Media<'images'>;
     subtitle: Schema.Attribute.Text;
-    titleBefore: Schema.Attribute.String;
-    titleHighlighted: Schema.Attribute.String;
+    title: Schema.Attribute.Component<'shared.highlighted-text', false>;
     videoUrl: Schema.Attribute.String;
   };
 }
@@ -318,22 +285,6 @@ export interface HomeTeamsSection extends Struct.ComponentSchema {
   };
 }
 
-export interface HomeTheme extends Struct.ComponentSchema {
-  collectionName: 'components_home_themes';
-  info: {
-    displayName: 'Theme';
-  };
-  attributes: {
-    challenge: Schema.Attribute.Text;
-    description: Schema.Attribute.Text;
-    disease: Schema.Attribute.String;
-    thumbnail: Schema.Attribute.Media<'images'>;
-    title: Schema.Attribute.String;
-    videoUrl: Schema.Attribute.String;
-    year: Schema.Attribute.String;
-  };
-}
-
 export interface NewsSection extends Struct.ComponentSchema {
   collectionName: 'components_news_sections';
   info: {
@@ -349,6 +300,31 @@ export interface NewsSection extends Struct.ComponentSchema {
       Schema.Attribute.DefaultTo<'text'>;
     title: Schema.Attribute.String;
     videoUrl: Schema.Attribute.String;
+  };
+}
+
+export interface PeopleDepartment extends Struct.ComponentSchema {
+  collectionName: 'components_people_departments';
+  info: {
+    displayName: 'Department';
+  };
+  attributes: {
+    members: Schema.Attribute.Component<'people.person', true>;
+    name: Schema.Attribute.String;
+  };
+}
+
+export interface PeoplePerson extends Struct.ComponentSchema {
+  collectionName: 'components_people_people';
+  info: {
+    displayName: 'Person';
+  };
+  attributes: {
+    affiliation: Schema.Attribute.String;
+    link: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    photo: Schema.Attribute.Media<'images'>;
+    role: Schema.Attribute.String;
   };
 }
 
@@ -504,11 +480,29 @@ export interface SharedStat extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedTimelineEvent extends Struct.ComponentSchema {
+  collectionName: 'components_shared_timeline_events';
+  info: {
+    displayName: 'Timeline Event';
+  };
+  attributes: {
+    biomarker: Schema.Attribute.String;
+    color: Schema.Attribute.Enumeration<
+      ['red', 'blue', 'teal', 'orange', 'green']
+    > &
+      Schema.Attribute.DefaultTo<'red'>;
+    description: Schema.Attribute.Text;
+    link: Schema.Attribute.String;
+    milestone: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    year: Schema.Attribute.Integer & Schema.Attribute.Required;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
       'archive.award-result': ArchiveAwardResult;
-      'blocks.archive-hub': BlocksArchiveHub;
       'blocks.card-list': BlocksCardList;
       'blocks.cta': BlocksCta;
       'blocks.embed': BlocksEmbed;
@@ -516,23 +510,22 @@ declare module '@strapi/strapi' {
       'blocks.image': BlocksImage;
       'blocks.link-list': BlocksLinkList;
       'blocks.logo-grid': BlocksLogoGrid;
-      'blocks.organization': BlocksOrganization;
       'blocks.person-grid': BlocksPersonGrid;
       'blocks.rich-text': BlocksRichText;
       'blocks.schedule': BlocksSchedule;
       'blocks.section-header': BlocksSectionHeader;
-      'blocks.team-grid': BlocksTeamGrid;
       'blocks.timeline': BlocksTimeline;
       'blocks.video': BlocksVideo;
-      'blocks.world-map': BlocksWorldMap;
+      'blocks.widget': BlocksWidget;
       'home.about': HomeAbout;
       'home.hero': HomeHero;
       'home.high-schools': HomeHighSchools;
       'home.mission': HomeMission;
       'home.symposium': HomeSymposium;
       'home.teams-section': HomeTeamsSection;
-      'home.theme': HomeTheme;
       'news.section': NewsSection;
+      'people.department': PeopleDepartment;
+      'people.person': PeoplePerson;
       'shared.address': SharedAddress;
       'shared.button': SharedButton;
       'shared.card': SharedCard;
@@ -545,6 +538,7 @@ declare module '@strapi/strapi' {
       'shared.seo': SharedSeo;
       'shared.social-link': SharedSocialLink;
       'shared.stat': SharedStat;
+      'shared.timeline-event': SharedTimelineEvent;
     }
   }
 }
